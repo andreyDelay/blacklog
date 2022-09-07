@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  blacklog:
+    image: andreydelay/head-service
+    build: .
+    restart: on-failure
+    ports:
+      - '8080:8000'
+    environment:
+      FILE_STORAGE_SERVICE_URL: file-storage #http://localhost:8001/api/v1/files
+      FILE_STORAGE_HOST: file-storage
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: blacklog
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    depends_on:
+      - postgres
+      - file-storage
+
+  postgres:
+    image: postgres:14
+    restart: on-failure
+    environment:
+      POSTGRES_DB: blacklog
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  file-storage:
+    image: andreydelay/file-storage
+    build: ../file-storage/
+    restart: on-failure
+
+networks:
+  mynetwork:
