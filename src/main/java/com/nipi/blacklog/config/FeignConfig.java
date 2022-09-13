@@ -1,8 +1,8 @@
 package com.nipi.blacklog.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nipi.blacklog.exception.FileStorageServiceException;
 import com.nipi.blacklog.exception.ApiException;
+import com.nipi.blacklog.exception.FileStorageServiceException;
 import feign.Logger;
 import feign.Response;
 import feign.codec.Encoder;

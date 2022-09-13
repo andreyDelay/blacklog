@@ -1,7 +1,9 @@
 package com.nipi.blacklog.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Entity
 @Builder
 @Table(name = "files")
+@NoArgsConstructor
+@AllArgsConstructor
 public class FileItem {
 
 	@Id

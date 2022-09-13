@@ -12,7 +12,9 @@ spring:
   jpa:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQL95Dialect
-      show-sql: true
+    properties:
+      hibernate:
+        show-sql: true
     liquibase:
       changelog: classpath:db/changelog/db.changelog-master.yaml
   servlet:
@@ -22,10 +24,13 @@ spring:
       max-request-size: 150MB
       file-size-threshold: 2048
 
+feign:
+  client:
+    decodeSlash: false
 
 feign-client:
   url:
-    file-storage-service: ${FILE_STORAGE_SERVICE_URL}
+    file-storage-service: ${FILE_STORAGE_SERVICE_HOST}:8001${FILE_STORAGE_SERVICE_URL}
 
 logging:
   level:
