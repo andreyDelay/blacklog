@@ -1,5 +1,5 @@
 package com.nipi.blacklog.model;
 
 public enum FileStatus {
-	UPLOADED, PARSING, PARSING_FAILED, READY
+	SAVING, SAVING_FAIL, SAVED, PARSING, PARSING_FAIL, PROCESSED
 }
