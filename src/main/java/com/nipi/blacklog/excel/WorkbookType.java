@@ -1,15 +1,11 @@
 package com.nipi.blacklog.excel;
 
+import lombok.*;
+
+@Getter
+@AllArgsConstructor
 public enum WorkbookType {
 	BASE_TP("BASE_TP");
 
-	public final String workbookType;
-
-	private WorkbookType(String workbookType) {
-		this.workbookType = workbookType;
-	}
-
-	public String getWorkbookType() {
-		return this.workbookType;
-	}
+	private final String type;
 }
