@@ -1,6 +1,7 @@
 package com.nipi.blacklog.service.impl;
 
 import com.nipi.blacklog.dto.FileItemDto;
+import com.nipi.blacklog.dto.ResourceHolder;
 import com.nipi.blacklog.dto.UploadResponseDto;
 import com.nipi.blacklog.excel.WorkbookType;
 import com.nipi.blacklog.exception.DownloadFileException;
@@ -12,9 +13,13 @@ import com.nipi.blacklog.repository.FilesMetadataRepository;
 import com.nipi.blacklog.service.ExcelFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -46,11 +51,27 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	}
 
 	@Override
-	public Resource downloadFile(String filepath) {
-		return fileStorageFeignService.download(filepath)
+	public ResourceHolder downloadFile(String filepath) {
+		Resource resource = fileStorageFeignService.download(filepath)
 				.orElseThrow(() -> new DownloadFileException(
 						String.format("Couldn't download the file. Filepath: %s.", filepath)
 				));
+
+		String filename = resource.getFilename() == null ? "requested file.xlsx" : resource.getFilename();
+		ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
+				.filename(filename, StandardCharsets.UTF_8)
+				.build();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		headers.add("Expires", "0");
+		headers.setContentDisposition(contentDisposition);
+
+		return ResourceHolder.builder()
+				.resource(resource)
+				.filename(filename)
+				.headers(headers)
+				.mediaType(MediaType.APPLICATION_OCTET_STREAM)
+				.build();
 	}
 
 	@Override
