@@ -17,8 +17,6 @@ services:
     depends_on:
       - postgres
       - file-storage
-    networks:
-      - custom
 
   postgres:
     image: postgres:14
@@ -27,21 +25,8 @@ services:
       POSTGRES_DB: blacklog
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    networks:
-      - custom
 
   file-storage:
     image: andreydelay/file-storage
     build: ../file-storage/
     restart: on-failure
-    ports:
-      - '8001'
-    networks:
-      - custom
-
-networks:
-  custom:
-    driver: bridge
-    #ipam:
-      #config:
-        #- subnet: 192.168.220.0/24
