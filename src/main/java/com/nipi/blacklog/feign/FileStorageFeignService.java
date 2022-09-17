@@ -11,9 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
-@FeignClient(value = "storage-service",
-			url = "${feign-client.url.file-storage-service}",
-			configuration = FeignConfig.class)
+@FeignClient(value = "storage-service", url = "${feign.storage-service-url}", configuration = FeignConfig.class)
 public interface FileStorageFeignService {
 
 	@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

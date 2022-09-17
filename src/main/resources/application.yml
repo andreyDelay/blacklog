@@ -25,10 +25,7 @@ spring:
 feign:
   client:
     decodeSlash: false
-
-feign-client:
-  url:
-    file-storage-service: ${FILE_STORAGE_SERVICE_HOST}:8001${FILE_STORAGE_SERVICE_URL}
+  storage-service-url: ${STORAGE_SERVICE_HOST}:${STORAGE_SERVICE_PORT}${STORAGE_SERVICE_URL}
 
 logging:
   level:
