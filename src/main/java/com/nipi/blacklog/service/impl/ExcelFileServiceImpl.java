@@ -7,6 +7,7 @@ import com.nipi.blacklog.excel.WorkbookType;
 import com.nipi.blacklog.exception.DownloadFileException;
 import com.nipi.blacklog.exception.UploadFileException;
 import com.nipi.blacklog.feign.FileStorageFeignService;
+import com.nipi.blacklog.mappers.MapStructMappers;
 import com.nipi.blacklog.model.FileItem;
 import com.nipi.blacklog.model.FileStatus;
 import com.nipi.blacklog.repository.FilesMetadataRepository;
@@ -31,17 +32,12 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 
 	@Override
 	public UploadResponseDto uploadFile(MultipartFile file, WorkbookType workbookType) {
-		FileItemDto response = fileStorageFeignService.upload(file)
+		FileItemDto fileItemDto = fileStorageFeignService.upload(file)
 				.orElseThrow(() -> new UploadFileException(
 						String.format("Couldn't upload the file. Filename: %s.", file.getName())));
 
-		FileItem fileItem = FileItem.builder()
-				.filename(response.getFilename())
-				.filepath(response.getFilepath())
-				.size(response.getSize())
-				.fileStatus(FileStatus.UPLOADED)
-				.build();
-
+		FileItem fileItem = MapStructMappers.INSTANCE.fileItemDtoToFileItem(fileItemDto);
+		fileItem.setFileStatus(FileStatus.UPLOADED);
 		FileItem savedFileItem = filesMetadataRepository.save(fileItem);
 
 		return UploadResponseDto.builder()
@@ -78,7 +74,7 @@ public class ExcelFileServiceImpl implements ExcelFileService {
 	public List<FileItemDto> getFilesList() {
 		return filesMetadataRepository.findAll()
 				.stream()
-				.map(FileItemDto::fromFileItem)
+				.map(MapStructMappers.INSTANCE::fileItemToFileItemDto)
 				.toList();
 	}
 }
