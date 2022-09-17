@@ -1,22 +1,20 @@
 server:
-  port: 8000
+  port: 8080
   servlet:
     context-path: /api/v1
 
 spring:
   datasource:
-    driver: org.postgresql.Driver
     url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
   jpa:
-    hibernate:
-      dialect: org.hibernate.dialect.PostgreSQL95Dialect
     properties:
       hibernate:
         show-sql: true
     liquibase:
       changelog: classpath:db/changelog/db.changelog-master.yaml
+
   servlet:
     multipart:
       enabled: true

@@ -6,7 +6,7 @@ services:
     build: .
     restart: on-failure
     ports:
-      - '8080:8000'
+      - '8080:8080'
     environment:
       FILE_STORAGE_SERVICE_URL: /api/v1/files
       FILE_STORAGE_SERVICE_HOST: file-storage
