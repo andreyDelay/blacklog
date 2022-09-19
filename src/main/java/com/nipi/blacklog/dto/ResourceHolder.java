@@ -7,6 +7,6 @@ import org.springframework.core.io.Resource;
 @Builder
 @Getter
 public class ResourceHolder {
-	private Resource resource;
 	private String filename;
+	private Resource resource;
 }

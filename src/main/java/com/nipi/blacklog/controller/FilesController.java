@@ -3,7 +3,7 @@ package com.nipi.blacklog.controller;
 import com.nipi.blacklog.dto.DownloadRequestDto;
 import com.nipi.blacklog.dto.FileItemDto;
 import com.nipi.blacklog.dto.ResourceHolder;
-import com.nipi.blacklog.excel.WorkbookType;
+import com.nipi.blacklog.excel.model.WorkbookType;
 import com.nipi.blacklog.service.ExcelFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -42,9 +42,9 @@ public class FilesController {
 		ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
 				.filename(resourceHolder.getFilename(), StandardCharsets.UTF_8)
 				.build();
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-		headers.add("Expires", "0");
 		headers.setContentDisposition(contentDisposition);
 
 		return ResponseEntity.ok()

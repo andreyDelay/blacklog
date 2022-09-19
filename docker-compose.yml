@@ -6,15 +6,9 @@ services:
     build: .
     restart: on-failure
     ports:
-      - '8080:8080'
-    environment:
-      STORAGE_SERVICE_URL: /api/v1/files
-      STORAGE_SERVICE_HOST: file-storage
-      STORAGE_SERVICE_PORT: 8001
-      POSTGRES_HOST: postgres
-      POSTGRES_DB: blacklog
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      - '8080:8000'
+    env_file:
+      - dev-blacklog.env
     depends_on:
       - postgres
       - file-storage
@@ -22,12 +16,18 @@ services:
   postgres:
     image: postgres:14
     restart: on-failure
-    environment:
-      POSTGRES_DB: blacklog
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+    env_file:
+      - dev-postgres.env
 
   file-storage:
     image: andreydelay/file-storage
     build: ../file-storage/
     restart: on-failure
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    env_file:
+      - dev-mq.env
+    ports:
+      - '5672'
+      - '15672:15672'

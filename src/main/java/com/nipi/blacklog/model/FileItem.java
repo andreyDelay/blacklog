@@ -1,5 +1,6 @@
 package com.nipi.blacklog.model;
 
+import com.nipi.blacklog.excel.model.WorkbookType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,4 +32,8 @@ public class FileItem {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status")
 	private FileStatus fileStatus;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "workbook_type")
+	private WorkbookType workbookType;
 }

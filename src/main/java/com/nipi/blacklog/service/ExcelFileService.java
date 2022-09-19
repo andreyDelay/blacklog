@@ -2,7 +2,7 @@ package com.nipi.blacklog.service;
 
 import com.nipi.blacklog.dto.FileItemDto;
 import com.nipi.blacklog.dto.ResourceHolder;
-import com.nipi.blacklog.excel.WorkbookType;
+import com.nipi.blacklog.excel.model.WorkbookType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -13,4 +13,5 @@ public interface ExcelFileService {
 	ResourceHolder downloadFile(String filepath);
 
 	List<FileItemDto> getFilesList();
+
 }

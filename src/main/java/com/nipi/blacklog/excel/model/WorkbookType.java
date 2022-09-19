@@ -1,4 +1,4 @@
-package com.nipi.blacklog.excel;
+package com.nipi.blacklog.excel.model;
 
 import lombok.*;
 
