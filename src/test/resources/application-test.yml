@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver: org.h2.Driver
+    url: jdbc:h2:mem:currency_db;DB_CLOSE_DELAY=-1
+    username: postgres
+    password: postgres
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  jpa:
+    hibernate:
+      show_sql: true
+      ddl-auto: validate
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+
+rabbitmq:
+  excel:
+    exchange: excel_exchange
+    queue:
+      parsing: excel_parsing_queue
+    routing_key:
+      parsing: excel.parsing.key
+
+  feign:
+    client:
+      decodeSlash: false
+    storage-service-url: http://localhost:8001/api/v1/files
+
+logging:
+  level:
+    com.nipi.blacklog.feign: DEBUG
+  file:
+    name: logs/file-storage-feign-client.log

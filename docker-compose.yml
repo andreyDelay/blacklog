@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  blacklog:
+    image: andreydelay/blacklog
+    build: .
+    restart: on-failure
+    ports:
+      - '8080:8000'
+    env_file:
+      - dev-blacklog.env
+    depends_on:
+      - postgres
+      - file-storage
+
+  postgres:
+    image: postgres:14
+    restart: on-failure
+    env_file:
+      - dev-postgres.env
+
+  file-storage:
+    image: andreydelay/file-storage
+    build: ../file-storage/
+    restart: on-failure
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    env_file:
+      - dev-mq.env
+    ports:
+      - '5672'
+      - '15672:15672'

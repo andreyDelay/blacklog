@@ -1,1 +1,46 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /api/v1
 
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 150MB
+      max-request-size: 150MB
+      file-size-threshold: 2048
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        show-sql: true
+    liquibase:
+      changelog: classpath:db/changelog/db.changelog-master.yaml
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+    port: ${RABBITMQ_PORT}
+
+rabbitmq:
+  excel:
+    exchange: excel_exchange
+    queue:
+      parsing: excel_parsing_queue
+    routing_key:
+      parsing: excel.parsing.key
+
+feign:
+  client:
+    decodeSlash: false
+  storage-service-url: ${STORAGE_SERVICE_HOST}:${STORAGE_SERVICE_PORT}${STORAGE_SERVICE_URL}
+
+logging:
+  level:
+    com.nipi.blacklog.feign: DEBUG
+  file:
+    name: logs/file-storage-feign-client.log
